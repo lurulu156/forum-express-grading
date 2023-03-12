@@ -41,7 +41,7 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res, next) => {
-    const { FavoritedRestaurants, Followers, Followings } = req.user
+    const { FavoritedRestaurants = [], Followers, Followings } = req.user || {}
     return Promise.all([
       User.findByPk(req.params.id, { raw: true }),
       Comment.findAndCountAll({
@@ -59,9 +59,9 @@ const userController = {
       .then(([user, comments]) => {
         const Counts = {
           CommenttedRestaurants: comments.count,
-          FavoritedRestaurants: FavoritedRestaurants.length,
-          Followers: Followers.length,
-          Followings: Followings.length
+          FavoritedRestaurants: FavoritedRestaurants?.length,
+          Followers: Followers?.length,
+          Followings: Followings?.length
         }
         res.render('users/profile', { user, CommenttedRestaurants: comments.rows, FavoritedRestaurants, Followers, Followings, Counts })
       })
