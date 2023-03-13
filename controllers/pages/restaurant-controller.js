@@ -46,15 +46,15 @@ const restaurantController = {
   getFeeds: (req, res, next) => {
     return Promise.all([
       Restaurant.findAll({
-        limit: 10,
         order: [['createdAt', 'DESC']],
+        limit: 10,
         include: [Category],
         raw: true,
         nest: true
       }),
       Comment.findAll({
-        limit: 10,
         order: [['createdAt', 'DESC']],
+        limit: 10,
         include: [User, Restaurant],
         raw: true,
         nest: true
